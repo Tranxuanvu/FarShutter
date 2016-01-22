@@ -14,6 +14,11 @@ Far Shutter là một ứng dụng chụp ảnh từ xa cho phép điều khiể
 * Xem màn hình camera trên thiết bị điều khiển
 * Xem ảnh vừa chụp ngay trên thiết bị điều khiển
 
+
+### Hỗ Trợ Nền Tảng ###
+
+* Android
+
 ### Versions ###
 
 * Alpha (3 tuần): kết nối, chụp ảnh.
