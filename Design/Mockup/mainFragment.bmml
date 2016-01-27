@@ -1,0 +1,23 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="827" measuredH="646" mockupW="282" mockupH="573">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="545" y="73" w="-1" h="-1" measuredW="282" measuredH="573" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <model>IPhone5</model>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="620" y="325" w="133" h="27" measuredW="69" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>cameraConnectFragment%26bm%3BcameraConnectFragment.bmml%26bm%3BcameraConnectFragment.bmml%26bm%3BcameraConnectFragment.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2275%2C252%2C208%2C279%22%20href%3D%22cameraConnectFragment.bmml%22%20alt%3D%22cameraConnectFragment%22%20id%3D%221%22/%3E</map>
+        <text>Camera</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="620" y="367" w="132" h="27" measuredW="65" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>ControlFrament%26bm%3BControlFrament.bmml%26bm%3BControlFrament.bmml%26bm%3BControlFrament.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2275%2C294%2C207%2C321%22%20href%3D%22ControlFrament.bmml%22%20alt%3D%22ControlFrament%22%20id%3D%222%22/%3E</map>
+        <text>Control</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

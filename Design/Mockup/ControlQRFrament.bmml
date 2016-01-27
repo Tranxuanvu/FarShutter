@@ -1,0 +1,20 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="870" measuredH="602" mockupW="282" mockupH="573">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="588" y="29" w="-1" h="-1" measuredW="282" measuredH="573" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <model>IPhone5</model>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Canvas" x="613" y="126" w="232" h="39" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::PointyButton" x="628" y="132" w="-1" h="-1" measuredW="120" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <direction>left</direction>
+        <href>ControlFrament%26bm%3BControlFrament.bmml%26bm%3BControlFrament.bmml%26bm%3BControlFrament.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2240%2C103%2C160%2C130%22%20href%3D%22ControlFrament.bmml%22%20alt%3D%22ControlFrament%22%20id%3D%222%22/%3E</map>
+        <newLayout>true</newLayout>
+        <text>QR%20Code%20Scan</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
