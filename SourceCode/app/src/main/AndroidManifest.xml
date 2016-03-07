@@ -17,17 +17,21 @@
         <activity
             android:name=".Activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Activity.TestActivity">
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <service
-            android:name=".Net.WifiPeer2PeerService"
+            android:name=".Services.CameraService"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
+            android:name=".Services.ControllerService"
             android:enabled="true"
             android:exported="true"></service>
     </application>
