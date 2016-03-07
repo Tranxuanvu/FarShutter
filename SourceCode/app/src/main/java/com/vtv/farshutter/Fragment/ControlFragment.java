@@ -1,109 +1,133 @@
 package com.vtv.farshutter.Fragment;
 
+import android.content.ComponentName;
 import android.content.Context;
-import android.net.Uri;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.esotericsoftware.kryonet.Connection;
+import com.vtv.farshutter.Net.Wifi.WifiAPI;
 import com.vtv.farshutter.R;
+import com.vtv.farshutter.Services.ControllerService;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ControlFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ControlFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ControlFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    //region Fields
 
-    private OnFragmentInteractionListener mListener;
+    private static final String TAG = "ControlFragment";
+    private ControllerService mControllerService = null;
+
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ControllerService.ControllerBinder binder = (ControllerService.ControllerBinder) service;
+
+            mControllerService = binder.getService();
+            onBindService(mControllerService);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mControllerService = null;
+        }
+    };
+
+    //endregion
+
+    //region Properties
+
+    //endregion
+
+    //region Constructors
 
     public ControlFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ControlFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ControlFragment newInstance(String param1, String param2) {
         ControlFragment fragment = new ControlFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
+
+    //endregion
+
+    //region Functions
+
+    /**
+     * On Service Bound
+     * @param service
+     */
+    private void onBindService(ControllerService service){
+        mControllerService.setControllerListener(new ControllerService.OnControllerListener() {
+            @Override
+            public void onConnected(Connection server) {
+                Log.d(TAG, "Connected to camera: " + server.getRemoteAddressTCP().getHostName());
+            }
+
+            @Override
+            public void onDisconnected(Connection server) {
+                Log.d(TAG, "Disconnected from camera: " + server.getRemoteAddressTCP().getHostName());
+            }
+
+            @Override
+            public void onCaptureComplete(Connection server) {
+                Log.d(TAG, "Capture complete from: " + server.getRemoteAddressTCP().getHostName());
+            }
+        });
+    }
+
+    /**
+     * Connect to wifi access point
+     * @param SSID
+     * @param password
+     */
+    private void connectWifi(String SSID, String password){
+        WifiAPI.Connect(this.getContext(), SSID, password);
+    }
+
+    //endregion
+
+    //region Methods
+
+    //endregion
+
+    //region EventListeners
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_control, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
+        WifiAPI.TurnOnWifiIfOff(this.getContext()); // turn on wifi if was turn off
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+    //endregion
+
+    //region ChildClasses
+
+    //endregion
+
+    //region Interfaces
+
+    //endregion
 }
