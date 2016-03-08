@@ -2,8 +2,8 @@ package com.vtv.farshutter.Fragment;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
@@ -112,16 +112,45 @@ public class CameraFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        if (WifiAPI.TurnOnWifiIfOff(this.getContext()) /*|| //TODO check is connected to wifi*/) {
-            WifiAPI.TurnOnOffHotspot(this.getContext(), Constant.HOSTPOT_SSID, Constant.HOSTPOT_PASS, true); // start hotspot
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (WifiAPI.TurnOnWifiIfOff(this.getContext()) /*|| //TODO check is connected to wifi*/) {
+            WifiAPI.TurnOnOffHotspot(this.getContext(), Constant.HOSTPOT_SSID, Constant.HOSTPOT_PASS, true); // start hotspot
+        }
+
+        //Bind service to application
+        Intent cameraIntent = new Intent(this.getActivity().getApplicationContext(),CameraService.class);
+        this.getActivity().getApplicationContext().bindService(cameraIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
         WifiAPI.TurnOnOffHotspot(this.getContext(), Constant.HOSTPOT_SSID, Constant.HOSTPOT_PASS, false); // stop hotspot
+
+        //Unbind service from application
+        this.getActivity().getApplicationContext().unbindService(mServiceConnection);
     }
 
     //endregion

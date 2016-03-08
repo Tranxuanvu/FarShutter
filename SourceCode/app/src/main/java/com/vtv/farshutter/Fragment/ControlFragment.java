@@ -2,6 +2,7 @@ package com.vtv.farshutter.Fragment;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -50,7 +51,7 @@ public class ControlFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ControlFragment newInstance(String param1, String param2) {
+    public static ControlFragment newInstance() {
         ControlFragment fragment = new ControlFragment();
         return fragment;
     }
@@ -119,6 +120,23 @@ public class ControlFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //Bind controller to service
+        Intent controllerIntent = new Intent(this.getActivity().getApplicationContext(), ControllerService.class);
+        this.getActivity().getApplicationContext().bindService(controllerIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        //Unbind from controller service
+        this.getActivity().getApplicationContext().unbindService(mServiceConnection);
     }
 
     //endregion

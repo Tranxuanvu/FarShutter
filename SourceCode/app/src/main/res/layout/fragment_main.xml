@@ -9,5 +9,18 @@
     tools:context=".Fragment.MainFragment"
     tools:showIn="@layout/activity_main">
 
-
+    <Button
+        android:id="@+id/btnCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:id="@+id/btnController"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Control"
+        android:layout_below="@+id/btnCamera"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
