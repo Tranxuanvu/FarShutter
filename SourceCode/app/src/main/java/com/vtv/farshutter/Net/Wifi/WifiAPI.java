@@ -5,33 +5,17 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import com.vtv.farshutter.Common.Constant;
-
 import java.util.List;
 
 /**
  * Created by choxu on 007/7/3/2016.
  */
 public class WifiAPI {
-    public static final String TAG = "WifiAPI";
+    private static final String TAG = "WifiAPI";
 
-    public static boolean TurnOnWifiIfOff(Context context){
+    public static boolean IsWifiOn(Context context){
         WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-
-        if (!wifiManager.isWifiEnabled()){
-            wifiManager.setWifiEnabled(true);
-
-            while (!wifiManager.isWifiEnabled()){
-                Log.d(TAG, "Wait Enable Wifi");
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return true;
-        }
-        return false;
+        return wifiManager.isWifiEnabled();
     }
 
     public static void TurnOnWifi(Context context){
@@ -40,7 +24,22 @@ public class WifiAPI {
         wifiManager.setWifiEnabled(true);
 
         while (!wifiManager.isWifiEnabled()){
-            Log.d(TAG, "Wait Enable Wifi");
+            Log.d(TAG, "Wait Turn On Wifi");
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void TurnOffWifi(Context context){
+        WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+
+        wifiManager.setWifiEnabled(false);
+
+        while (wifiManager.isWifiEnabled()){
+            Log.d(TAG, "Wait Turn Off Wifi");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -106,14 +105,5 @@ public class WifiAPI {
 
             apControl.setWifiApEnabled(wifiConfiguration, isTurnToOn);
         }
-    }
-
-    public static boolean IsWifiOn(Context context){
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        WifiApControl apControl = WifiApControl.getApControl(wifiManager);
-        if (apControl != null) {
-            return apControl.isWifiApEnabled();
-        }
-        return false;
     }
 }

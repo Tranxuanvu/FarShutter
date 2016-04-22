@@ -3,12 +3,11 @@ package com.vtv.farshutter.Net.Wifi;
 /**
  * Created by choxu on 028/28/2/2016.
  */
+import java.lang.reflect.Method;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
-
-import java.lang.reflect.Method;
 
 /**
  * This class is use to handle all Hotspot related information.
