@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Fragment.ControlFragment">
+
+    <ImageView
+        android:id="@+id/ivCameraPreview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:rotation="90"
+        android:contentDescription="@string/camera_review" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
+        <ImageButton
+            android:id="@+id/btnReview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/photo_camera"
+            android:layout_alignParentLeft="true"
+            android:scaleType="fitCenter"
+            android:layout_toLeftOf="@+id/btnTakePhoto"
+            android:layout_toStartOf="@+id/btnTakePhoto"
+            android:background="@null"
+            android:padding="10dp"
+            android:contentDescription="@string/image_review" />
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btnTakePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/photo_camera"
+            app:cb_color="#afafae"
+            app:cb_pressedRingWidth="8dip"
+            android:scaleType="fitCenter"
+            android:padding="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <ImageButton
+            android:id="@+id/btnConnectCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/remote_camera"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitCenter"
+            android:layout_alignParentEnd="false"
+            android:layout_toRightOf="@+id/btnTakePhoto"
+            android:layout_toEndOf="@+id/btnTakePhoto"
+            android:background="@null"
+            android:padding="10dp"
+            android:contentDescription="@string/qr_code" />
+    </RelativeLayout>
+</LinearLayout>
