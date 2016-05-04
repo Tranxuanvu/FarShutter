@@ -28,7 +28,7 @@ public class WifiAPI {
 
         wifiManager.setWifiEnabled(isTurnOn);
 
-        while (!wifiManager.isWifiEnabled()) {
+        while ((isTurnOn && !wifiManager.isWifiEnabled()) || (!isTurnOn && wifiManager.isWifiEnabled())) {
             Log.d(TAG, "Wait Turn " + (isTurnOn ? "On" : "Off") + " Wifi");
             try {
                 Thread.sleep(500);

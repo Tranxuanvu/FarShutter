@@ -20,6 +20,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.ExifInterface;
+import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
@@ -67,6 +68,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     private Camera mCamera;
     private FrameLayout mPreviewContainer;
     private ImageButton mBtnQRCode;
+    private ImageButton mBtnImagePreview;
     private CircleButton mBtnTakePhoto;
     private Dialog mQRCodeDialog;
     private Dialog mConfirmBackDialog;
@@ -80,6 +82,9 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     private Date lastSend = new Date();
     private boolean blockStream = false;
     private Camera.Size sendImageSize = null;
+
+    private String lastImagePath = null;
+    private Bitmap lastImage = null;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -224,9 +229,19 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                             @Override
                             public void onPictureTaken(byte[] data, Camera camera) {
                                 try {
-                                    String path = SavePicture(data);
-                                    Log.d(TAG, path);
-                                    //TODO SHOW IMAGE IN REVIEW
+                                    lastImagePath = SavePicture(data);
+
+                                    //Add Image to Media
+                                    MediaScannerConnection.scanFile(getContext(), new String[] { lastImagePath }, null, null);
+
+                                    //Show Image in preview
+                                    if (lastImage != null){
+                                        lastImage.recycle();
+                                        lastImage = null;
+                                    }
+
+                                    lastImage = BitmapFactory.decodeByteArray(data,0, data.length);
+                                    mBtnImagePreview.setImageBitmap(lastImage);
 
                                     SafeSendCode(ActionCodes.CAPTURE_COMPLETE);
                                     SafeSendCapturedImage(data);
@@ -341,6 +356,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         mPreviewContainer = (FrameLayout) view.findViewById(R.id.camera_preview);
         mBtnQRCode = (ImageButton) view.findViewById(R.id.btnShowQRCode);
         mBtnTakePhoto = (CircleButton) view.findViewById(R.id.btnTakePhoto);
+        mBtnImagePreview = (ImageButton) view.findViewById(R.id.btnReview);
 
         mBtnQRCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -434,7 +450,6 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     public void onPause() {
         super.onPause();
 
-        //
         releaseCamera();
         if (mCameraService != null) {
             mCameraService.removeCallback();
@@ -459,6 +474,8 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         }
 
         mJpegCompressionBuffer.reset();
+
+        releaseCamera();
     }
 
     @Override

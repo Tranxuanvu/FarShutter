@@ -20,6 +20,7 @@
             android:src="@drawable/photo_camera"
             android:layout_alignParentLeft="true"
             android:scaleType="fitCenter"
+            android:rotation="90"
             android:layout_toLeftOf="@+id/btnTakePhoto"
             android:layout_toStartOf="@+id/btnTakePhoto"
             android:background="@null"

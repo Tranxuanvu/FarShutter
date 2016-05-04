@@ -42,59 +42,7 @@
     <favorites_list name="FarShutter" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="CameraFragment.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Fragment/CameraFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.70304114">
-              <caret line="333" column="47" selection-start-line="333" selection-start-column="47" selection-end-line="333" selection-end-column="47" />
-              <folding>
-                <element signature="e#2038#2053#0" expanded="false" />
-                <element signature="class#2815:3378" expanded="false" />
-                <element signature="method#onServiceConnected#0;class#2815:3378" expanded="false" />
-                <element signature="method#onServiceDisconnected#0;class#2815:3378" expanded="false" />
-                <element signature="e#3402#3421#0" expanded="false" />
-                <element signature="e#3444#3465#0" expanded="false" />
-                <element signature="method#CameraFragment#0;class#CameraFragment#0" expanded="false" />
-                <element signature="docComment;method#newInstance#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#newInstance#0;class#CameraFragment#0" expanded="false" />
-                <element signature="e#3899#3917#0" expanded="false" />
-                <element signature="method#releaseCamera#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#createCamera#0;class#CameraFragment#0" expanded="false" />
-                <element signature="e#4477#4513#0" expanded="false" />
-                <element signature="e#5113#5185#0" expanded="false" />
-                <element signature="e#5598#5670#0" expanded="false" />
-                <element signature="docComment;method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#getRotateAnimation#0;class#CameraFragment#0" expanded="false" />
-                <element signature="e#6251#6322#0" expanded="false" />
-                <element signature="e#6484#6554#0" expanded="false" />
-                <element signature="e#6872#6942#0" expanded="false" />
-                <element signature="method#TakePhoto#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#SavePicture#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#SafeSendCode#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#SafeSendCapturedImage#0;class#CameraFragment#0" expanded="false" />
-                <element signature="e#10953#10969#0" expanded="false" />
-                <element signature="method#onCreateView#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#onResume#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#onPause#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#onDestroy#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#onSensorChanged#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#onAccuracyChanged#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#OnCreateServer#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#OnCreateServerError#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#OnConnectError#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#OnConnect#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#OnReceiveImage#0;class#CameraFragment#0" expanded="false" />
-                <element signature="method#OnReceiveCode#0;class#CameraFragment#0" expanded="false" />
-                <element signature="e#20332#20353#0" expanded="false" />
-                <element signature="e#20376#20395#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -2487,9 +2435,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Common/ActionCodes.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/preview_dialog.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Common/Settings.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Net/Wifi/WifiAPI.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Fragment/ControlFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_camera.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Net/Wifi/WifiAPI.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Fragment/CameraFragment.java" />
       </list>
     </option>
@@ -2554,10 +2503,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
-      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2650,30 +2595,12 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FarShutter" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="farshutter" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Fragment" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2872,13 +2799,13 @@
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47359455" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2906,11 +2833,61 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Fragment/CameraFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#2083#2098#0" expanded="false" />
+            <element signature="class#2981:3544" expanded="false" />
+            <element signature="method#onServiceConnected#0;class#2981:3544" expanded="false" />
+            <element signature="method#onServiceDisconnected#0;class#2981:3544" expanded="false" />
+            <element signature="e#3568#3587#0" expanded="false" />
+            <element signature="e#3610#3631#0" expanded="false" />
+            <element signature="method#CameraFragment#0;class#CameraFragment#0" expanded="false" />
+            <element signature="docComment;method#newInstance#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#newInstance#0;class#CameraFragment#0" expanded="false" />
+            <element signature="e#4065#4083#0" expanded="false" />
+            <element signature="method#releaseCamera#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#createCamera#0;class#CameraFragment#0" expanded="false" />
+            <element signature="e#4643#4679#0" expanded="false" />
+            <element signature="e#5279#5351#0" expanded="false" />
+            <element signature="e#5764#5836#0" expanded="false" />
+            <element signature="docComment;method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#getRotateAnimation#0;class#CameraFragment#0" expanded="false" />
+            <element signature="e#6417#6488#0" expanded="false" />
+            <element signature="e#6650#6720#0" expanded="false" />
+            <element signature="e#7038#7108#0" expanded="false" />
+            <element signature="method#TakePhoto#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#SavePicture#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#SafeSendCode#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#SafeSendCapturedImage#0;class#CameraFragment#0" expanded="false" />
+            <element signature="e#11647#11663#0" expanded="false" />
+            <element signature="method#onCreate#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#onCreateView#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#onResume#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#onPause#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#onSensorChanged#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#onAccuracyChanged#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#OnCreateServer#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#OnCreateServerError#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#OnConnectError#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#OnConnect#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#OnReceiveImage#0;class#CameraFragment#0" expanded="false" />
+            <element signature="method#OnReceiveCode#0;class#CameraFragment#0" expanded="false" />
+            <element signature="e#21117#21138#0" expanded="false" />
+            <element signature="e#21161#21180#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Fragment/ControlFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2984,32 +2961,33 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#2038#2053#0" expanded="false" />
-            <element signature="class#2815:3378" expanded="false" />
-            <element signature="method#onServiceConnected#0;class#2815:3378" expanded="false" />
-            <element signature="method#onServiceDisconnected#0;class#2815:3378" expanded="false" />
-            <element signature="e#3402#3421#0" expanded="false" />
-            <element signature="e#3444#3465#0" expanded="false" />
+            <element signature="e#2083#2098#0" expanded="false" />
+            <element signature="class#2981:3544" expanded="false" />
+            <element signature="method#onServiceConnected#0;class#2981:3544" expanded="false" />
+            <element signature="method#onServiceDisconnected#0;class#2981:3544" expanded="false" />
+            <element signature="e#3568#3587#0" expanded="false" />
+            <element signature="e#3610#3631#0" expanded="false" />
             <element signature="method#CameraFragment#0;class#CameraFragment#0" expanded="false" />
             <element signature="docComment;method#newInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#newInstance#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#3899#3917#0" expanded="false" />
+            <element signature="e#4065#4083#0" expanded="false" />
             <element signature="method#releaseCamera#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#createCamera#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#4477#4513#0" expanded="false" />
-            <element signature="e#5113#5185#0" expanded="false" />
-            <element signature="e#5598#5670#0" expanded="false" />
+            <element signature="e#4643#4679#0" expanded="false" />
+            <element signature="e#5279#5351#0" expanded="false" />
+            <element signature="e#5764#5836#0" expanded="false" />
             <element signature="docComment;method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#getRotateAnimation#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#6251#6322#0" expanded="false" />
-            <element signature="e#6484#6554#0" expanded="false" />
-            <element signature="e#6872#6942#0" expanded="false" />
+            <element signature="e#6417#6488#0" expanded="false" />
+            <element signature="e#6650#6720#0" expanded="false" />
+            <element signature="e#7038#7108#0" expanded="false" />
             <element signature="method#TakePhoto#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SavePicture#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SafeSendCode#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SafeSendCapturedImage#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#10953#10969#0" expanded="false" />
+            <element signature="e#11647#11663#0" expanded="false" />
+            <element signature="method#onCreate#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onCreateView#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onResume#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onPause#0;class#CameraFragment#0" expanded="false" />
@@ -3022,8 +3000,8 @@
             <element signature="method#OnConnect#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#OnReceiveImage#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#OnReceiveCode#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#20332#20353#0" expanded="false" />
-            <element signature="e#20376#20395#0" expanded="false" />
+            <element signature="e#21117#21138#0" expanded="false" />
+            <element signature="e#21161#21180#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3109,32 +3087,33 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#2038#2053#0" expanded="false" />
-            <element signature="class#2815:3378" expanded="false" />
-            <element signature="method#onServiceConnected#0;class#2815:3378" expanded="false" />
-            <element signature="method#onServiceDisconnected#0;class#2815:3378" expanded="false" />
-            <element signature="e#3402#3421#0" expanded="false" />
-            <element signature="e#3444#3465#0" expanded="false" />
+            <element signature="e#2083#2098#0" expanded="false" />
+            <element signature="class#2981:3544" expanded="false" />
+            <element signature="method#onServiceConnected#0;class#2981:3544" expanded="false" />
+            <element signature="method#onServiceDisconnected#0;class#2981:3544" expanded="false" />
+            <element signature="e#3568#3587#0" expanded="false" />
+            <element signature="e#3610#3631#0" expanded="false" />
             <element signature="method#CameraFragment#0;class#CameraFragment#0" expanded="false" />
             <element signature="docComment;method#newInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#newInstance#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#3899#3917#0" expanded="false" />
+            <element signature="e#4065#4083#0" expanded="false" />
             <element signature="method#releaseCamera#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#createCamera#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#4477#4513#0" expanded="false" />
-            <element signature="e#5113#5185#0" expanded="false" />
-            <element signature="e#5598#5670#0" expanded="false" />
+            <element signature="e#4643#4679#0" expanded="false" />
+            <element signature="e#5279#5351#0" expanded="false" />
+            <element signature="e#5764#5836#0" expanded="false" />
             <element signature="docComment;method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#getRotateAnimation#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#6251#6322#0" expanded="false" />
-            <element signature="e#6484#6554#0" expanded="false" />
-            <element signature="e#6872#6942#0" expanded="false" />
+            <element signature="e#6417#6488#0" expanded="false" />
+            <element signature="e#6650#6720#0" expanded="false" />
+            <element signature="e#7038#7108#0" expanded="false" />
             <element signature="method#TakePhoto#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SavePicture#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SafeSendCode#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SafeSendCapturedImage#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#10953#10969#0" expanded="false" />
+            <element signature="e#11647#11663#0" expanded="false" />
+            <element signature="method#onCreate#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onCreateView#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onResume#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onPause#0;class#CameraFragment#0" expanded="false" />
@@ -3147,8 +3126,8 @@
             <element signature="method#OnConnect#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#OnReceiveImage#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#OnReceiveCode#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#20332#20353#0" expanded="false" />
-            <element signature="e#20376#20395#0" expanded="false" />
+            <element signature="e#21117#21138#0" expanded="false" />
+            <element signature="e#21161#21180#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3204,25 +3183,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/qr_scanner_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_control.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Fragment/ControlFragment.java">
@@ -3268,25 +3245,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/qr_scanner_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_control.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Fragment/ControlFragment.java">
@@ -3332,25 +3307,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/qr_scanner_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_control.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar!/android/support/v7/internal/app/WindowDecorActionBar.class">
@@ -3372,17 +3345,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_camera.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://D:/Android-SDK/sources/android-23/java/lang/reflect/Constructor.java">
@@ -3408,38 +3370,33 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/qr_scanner_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.19245283">
           <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_control.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/preview_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16037735">
           <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-          <folding>
-            <element signature="e#442#465#0" expanded="true" />
-          </folding>
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://D:/Android-SDK/sources/android-23/java/io/File.java">
@@ -3496,7 +3453,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.27370304">
           <caret line="26" column="28" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3517,14 +3473,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/qr_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.9310346">
           <caret line="5" column="36" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="36" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Services/CameraService.java">
@@ -3550,14 +3506,6 @@
             <element signature="method#getService#0;class#CameraBinder#0;class#CameraService#0" expanded="false" />
             <element signature="e#2233#2252#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Net/Wifi/WifiAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.2455516">
-          <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3605,35 +3553,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Fragment/CameraFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.70304114">
-          <caret line="333" column="47" selection-start-line="333" selection-start-column="47" selection-end-line="333" selection-end-column="47" />
+        <state vertical-scroll-proportion="-1.0679785">
+          <caret line="337" column="0" selection-start-line="337" selection-start-column="0" selection-end-line="337" selection-end-column="0" />
           <folding>
-            <element signature="e#2038#2053#0" expanded="false" />
-            <element signature="class#2815:3378" expanded="false" />
-            <element signature="method#onServiceConnected#0;class#2815:3378" expanded="false" />
-            <element signature="method#onServiceDisconnected#0;class#2815:3378" expanded="false" />
-            <element signature="e#3402#3421#0" expanded="false" />
-            <element signature="e#3444#3465#0" expanded="false" />
+            <element signature="e#2083#2098#0" expanded="false" />
+            <element signature="class#2981:3544" expanded="false" />
+            <element signature="method#onServiceConnected#0;class#2981:3544" expanded="false" />
+            <element signature="method#onServiceDisconnected#0;class#2981:3544" expanded="false" />
+            <element signature="e#3568#3587#0" expanded="false" />
+            <element signature="e#3610#3631#0" expanded="false" />
             <element signature="method#CameraFragment#0;class#CameraFragment#0" expanded="false" />
             <element signature="docComment;method#newInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#newInstance#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#3899#3917#0" expanded="false" />
+            <element signature="e#4065#4083#0" expanded="false" />
             <element signature="method#releaseCamera#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#createCamera#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#4477#4513#0" expanded="false" />
-            <element signature="e#5113#5185#0" expanded="false" />
-            <element signature="e#5598#5670#0" expanded="false" />
+            <element signature="e#4643#4679#0" expanded="false" />
+            <element signature="e#5279#5351#0" expanded="false" />
+            <element signature="e#5764#5836#0" expanded="false" />
             <element signature="docComment;method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#getCameraInstance#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#getRotateAnimation#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#6251#6322#0" expanded="false" />
-            <element signature="e#6484#6554#0" expanded="false" />
-            <element signature="e#6872#6942#0" expanded="false" />
+            <element signature="e#6417#6488#0" expanded="false" />
+            <element signature="e#6650#6720#0" expanded="false" />
+            <element signature="e#7038#7108#0" expanded="false" />
             <element signature="method#TakePhoto#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SavePicture#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SafeSendCode#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#SafeSendCapturedImage#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#10953#10969#0" expanded="false" />
+            <element signature="e#11647#11663#0" expanded="false" />
+            <element signature="method#onCreate#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onCreateView#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onResume#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#onPause#0;class#CameraFragment#0" expanded="false" />
@@ -3646,9 +3595,28 @@
             <element signature="method#OnConnect#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#OnReceiveImage#0;class#CameraFragment#0" expanded="false" />
             <element signature="method#OnReceiveCode#0;class#CameraFragment#0" expanded="false" />
-            <element signature="e#20332#20353#0" expanded="false" />
-            <element signature="e#20376#20395#0" expanded="false" />
+            <element signature="e#21117#21138#0" expanded="false" />
+            <element signature="e#21161#21180#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/thuantan/farshutter/Net/Wifi/WifiAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4847943">
+          <caret line="30" column="67" selection-start-line="30" selection-start-column="67" selection-end-line="30" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_camera.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3207547">
+          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
