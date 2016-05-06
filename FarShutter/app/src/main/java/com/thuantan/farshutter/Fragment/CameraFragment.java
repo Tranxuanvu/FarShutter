@@ -72,6 +72,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     private CircleButton mBtnTakePhoto;
     private Dialog mQRCodeDialog;
     private Dialog mConfirmBackDialog;
+    private Dialog mPreviewImageDialog;
 
     private Bitmap mQRCodeImage = null;
     private int deviceWidth;
@@ -93,9 +94,23 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
 
             mCameraService = binder.getService();
             if (mCameraService != null) {
+                //Wait wifi connect
+                while (WifiAPI.GetCurrentIP() == null) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 mCameraService.setCallback(CameraFragment.this);
                 mCameraService.startServer();
-                createCamera();
             }
         }
 
@@ -145,7 +160,13 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
 
     private void createCamera() {
         // Create an instance of Camera
-        mCamera = getCameraInstance();
+        Camera camera = getCameraInstance();
+
+        if (camera == null){
+            return;
+        }
+
+        mCamera = camera;
 
         // Setting the right parameters in the camera
         Camera.Parameters params = mCamera.getParameters();
@@ -315,14 +336,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                 }
             }
             mCameraService.sendCodeData(ActionCodes.START_SEND_IMAGE);
-
-            mJpegCompressionBuffer.reset();
-            Camera.Parameters parameters = mCamera.getParameters();
-            Camera.Size size = parameters.getPreviewSize();
-            YuvImage image = new YuvImage(data, parameters.getPreviewFormat(), size.width, size.height, null);
-            image.compressToJpeg(new Rect(0, 0, image.getWidth(), image.getHeight()), 90, mJpegCompressionBuffer);
-            mCameraService.sendImageData(mJpegCompressionBuffer.toByteArray());
-
+            mCameraService.sendImageData(data);
             mCameraService.sendCodeData(ActionCodes.END_SEND_IMAGE);
 
             blockStream = false;
@@ -357,6 +371,18 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         mBtnQRCode = (ImageButton) view.findViewById(R.id.btnShowQRCode);
         mBtnTakePhoto = (CircleButton) view.findViewById(R.id.btnTakePhoto);
         mBtnImagePreview = (ImageButton) view.findViewById(R.id.btnReview);
+
+        mBtnImagePreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lastImage != null){
+                    mPreviewImageDialog.show();
+
+                    ImageView imageView = (ImageView) mPreviewImageDialog.findViewById(R.id.preview_image);
+                    imageView.setImageBitmap(lastImage);
+                }
+            }
+        });
 
         mBtnQRCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -435,6 +461,17 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         builder.setMessage("Do you want to close ?");
         mConfirmBackDialog = builder.create();
 
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+        builder2.setView(inflater.inflate(R.layout.preview_dialog, null));
+        builder2.setTitle("Preview");
+        builder2.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        mPreviewImageDialog = builder2.create();
+
         return view;
     }
 
@@ -444,6 +481,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
 
         // Register this class as a listener for the accelerometer sensor
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        createCamera();
     }
 
     @Override
@@ -451,13 +489,10 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         super.onPause();
 
         releaseCamera();
-        if (mCameraService != null) {
-            mCameraService.removeCallback();
-        }
+
         if (mPreviewContainer != null && mPreviewContainer.getChildCount() > 0) {
             mPreviewContainer.removeViewAt(0);
         }
-        mCameraService = null;
     }
 
     @Override
@@ -465,8 +500,13 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         super.onDestroy();
 
         WifiAPI.TurnOnOffHotspot(getContext(), Settings.HOTSPOT_SSID, Settings.HOSTPOST_PASS, false);
+
         //Unbind from controller service
         this.getActivity().getApplicationContext().unbindService(mServiceConnection);
+        if (mCameraService != null) {
+            mCameraService.removeCallback();
+        }
+        mCameraService = null;
 
         if (mQRCodeImage != null) {
             mQRCodeImage.recycle();
@@ -537,9 +577,10 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     private Camera.PreviewCallback mPreviewCallBack = new Camera.PreviewCallback() {
         @Override
         public void onPreviewFrame(byte[] data, Camera camera) {
-            if (!isSending && !blockStream) {
+            Log.d(TAG, isSending + " " + blockStream + " " + mCameraService );
+            if (!isSending && !blockStream && mCameraService != null) {
                 Date current = new Date();
-                if ((current.getTime() - lastSend.getTime()) >= 125) {
+                if ((current.getTime() - lastSend.getTime()) >= 100) {
                     lastSend = current;
                     isSending = true;
 
@@ -548,6 +589,8 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                     if (sendImageSize == null) {
                         sendImageSize = mCamera.getParameters().getPreviewSize();
                     }
+
+                    Log.d(TAG, sendImageSize.width + "");
 
                     YuvImage image = new YuvImage(data, mCamera.getParameters().getPreviewFormat(), sendImageSize.width, sendImageSize.height, null);
                     image.compressToJpeg(new Rect(0, 0, image.getWidth(), image.getHeight()), 90, mJpegCompressionBuffer);

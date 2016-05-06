@@ -13,8 +13,8 @@
 
     <com.victor.ringbutton.RingButton
         android:id="@+id/ringButton"
-        app:ringbutton_upText="Take Photo"
-        app:ringbutton_downText="Hand Write"
+        app:ringbutton_upText="I'm Camera"
+        app:ringbutton_downText="I'm Control"
         app:ringbutton_upDrawable="@drawable/take_photo"
         app:ringbutton_downDrawable="@drawable/hand_write"
         android:layout_centerInParent="true"

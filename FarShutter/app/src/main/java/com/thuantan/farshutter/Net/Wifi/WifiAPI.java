@@ -58,7 +58,7 @@ public class WifiAPI {
 
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
         for (WifiConfiguration i : list) {
-            if (i.SSID != null && i.SSID.equals(ssid)) {
+            if (i.SSID != null && i.SSID.equals("\"" + ssid + "\"")) {
                 try {
                     wifiManager.disconnect();
                     wifiManager.enableNetwork(i.networkId, true);

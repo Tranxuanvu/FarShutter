@@ -8,24 +8,27 @@
     <FrameLayout
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom">
+
         <ImageButton
             android:id="@+id/btnReview"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/photo_camera"
-            android:layout_alignParentLeft="true"
-            android:scaleType="fitCenter"
+            android:scaleType="centerInside"
             android:rotation="90"
-            android:layout_toLeftOf="@+id/btnTakePhoto"
-            android:layout_toStartOf="@+id/btnTakePhoto"
-            android:background="@null"
-            android:padding="10dp"
-            android:contentDescription="@string/image_review" />
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image_review"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <at.markushi.ui.CircleButton
             android:id="@+id/btnTakePhoto"
             android:layout_width="wrap_content"
@@ -33,22 +36,26 @@
             android:src="@drawable/photo_camera"
             app:cb_color="#afafae"
             app:cb_pressedRingWidth="8dip"
+            android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:padding="20dp"
+            android:layout_gravity="center"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+
         <ImageButton
             android:id="@+id/btnShowQRCode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/qr_code"
-            android:layout_alignParentRight="true"
+            android:contentDescription="@string/qr_code"
             android:scaleType="fitCenter"
-            android:layout_alignParentEnd="false"
-            android:layout_toRightOf="@+id/btnTakePhoto"
-            android:layout_toEndOf="@+id/btnTakePhoto"
-            android:background="@null"
             android:padding="10dp"
-            android:contentDescription="@string/qr_code" />
+            android:background="@null"
+            android:adjustViewBounds="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 </LinearLayout>

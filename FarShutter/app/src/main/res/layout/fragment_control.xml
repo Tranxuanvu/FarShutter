@@ -28,6 +28,7 @@
             android:layout_toLeftOf="@+id/btnTakePhoto"
             android:layout_toStartOf="@+id/btnTakePhoto"
             android:background="@null"
+            android:rotation="90"
             android:padding="10dp"
             android:contentDescription="@string/image_review" />
         <at.markushi.ui.CircleButton

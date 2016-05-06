@@ -81,6 +81,7 @@ public class CameraService extends Service {
         }).start();
     }
 
+
     //endregion
 
     //region EventListeners

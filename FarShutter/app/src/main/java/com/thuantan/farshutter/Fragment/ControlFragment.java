@@ -10,55 +10,70 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
+import android.graphics.Matrix;
+import android.graphics.PointF;
+import android.media.MediaScannerConnection;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.zxing.Result;
 import com.thuantan.farshutter.Common.ActionCodes;
 import com.thuantan.farshutter.Net.NativeSocketReceiver;
 import com.thuantan.farshutter.Net.Wifi.WifiAPI;
 import com.thuantan.farshutter.R;
 import com.thuantan.farshutter.Services.CameraService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import at.markushi.ui.CircleButton;
-import eu.livotov.labs.android.camview.ScannerLiveView;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ControlFragment extends Fragment implements NativeSocketReceiver.NativeSocketResponse {
     //region Fields
 
-    private enum ReceiveState{
+    private enum ReceiveState {
         RECEIVE_CAPTURED_IMAGE, RECEIVE_STEAM_IMAGE
     }
 
     private static final String TAG = "ControlFragment";
     private CameraService mCameraService = null;
-    private ScannerLiveView mScanner = null;
     private Dialog mPreviewImageDialog = null;
     private Dialog mConfirmBackDialog = null;
     private Dialog mServerDisconnectDialog = null;
     private boolean mScanning = false;
+    private ZXingScannerView mScannerView = null;
 
     private CircleButton mBtnTakePhoto;
     private ImageButton mBtnConnectCamera;
+    private ImageButton mBtnImagePreview;
     private ImageView mIvCameraPreview;
     private Dialog mQRScannerDialog;
     private Bitmap bmp1;
     private Bitmap bmp2;
     private Bitmap result;
-    private Bitmap previewBitmap;
     private boolean bmpChoose = true; /* true is 1, false is 2 */
+    private boolean isRenderStream = false;
     private ReceiveState mReceiveState = ReceiveState.RECEIVE_STEAM_IMAGE;
+    private String lastImagePath = null;
+    private Bitmap lastImage = null;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -66,7 +81,7 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
             CameraService.CameraBinder binder = (CameraService.CameraBinder) service;
             mCameraService = binder.getService();
 
-            if (mCameraService != null){
+            if (mCameraService != null) {
                 mCameraService.setCallback(ControlFragment.this);
             }
         }
@@ -98,42 +113,28 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
 
     //region Functions
 
-    private void ShowQRScanner(){
-        if (mQRScannerDialog != null){
+    private void ShowQRScanner() {
+        if (mQRScannerDialog != null) {
             mQRScannerDialog.show();
 
-            mScanner = (ScannerLiveView)mQRScannerDialog.findViewById(R.id.scanner);
-            if (mScanner != null){
-                mScanner.setScannerViewEventListener(new ScannerLiveView.ScannerViewEventListener() {
+            if (mScannerView == null) {
+                mScannerView = new ZXingScannerView(getContext());
+                mScannerView.offsetTopAndBottom(0);
+                mScannerView.setResultHandler(new ZXingScannerView.ResultHandler() {
                     @Override
-                    public void onScannerStarted(ScannerLiveView scanner) {
-
-                    }
-
-                    @Override
-                    public void onScannerStopped(ScannerLiveView scanner) {
-
-                    }
-
-                    @Override
-                    public void onScannerError(Throwable err) {
-
-                    }
-
-                    @Override
-                    public void onCodeScanned(String data) {
+                    public void handleResult(Result result) {
                         mQRScannerDialog.dismiss();
 
-                        String[] parts = data.split(";");
+                        String[] parts = result.getText().split(";");
 
                         if (parts.length >= 3) {
                             //Connect WIFI
-                            WifiAPI.Connect(getContext(), parts[0], parts[1]);
+                            WifiAPI.Connect(getContext(), parts[1], parts[2]);
 
                             //Connect Server
-                            Pattern p = Pattern.compile("^[0-9]\\.[0-9]\\.[0-9]\\.[0-9]$");
-                            Matcher m = p.matcher(parts[2]);
-                            if (m.find()) {
+                            Pattern p = Pattern.compile("^([0-2]?)([0-9]?)[0-9]\\.([0-2]?)([0-9]?)[0-9]\\.([0-2]?)([0-9]?)[0-9]\\.([0-2]?)([0-9]?)[0-9]$");
+                            Matcher m = p.matcher(parts[0]);
+                            if (m.matches()) {
                                 //Wait for wifi connected
                                 while (WifiAPI.GetCurrentIP() == null) {
                                     try {
@@ -142,68 +143,134 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
                                         e.printStackTrace();
                                     }
                                 }
-                                ConnectServer(data);
+                                ConnectServer(parts[0]);
                             }
-                        }else{
+                        } else {
                             Toast.makeText(getContext(), "Scan Fail", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
+                FrameLayout scanner = (FrameLayout) mQRScannerDialog.findViewById(R.id.scanner);
+                scanner.addView(mScannerView);
             }
 
             mQRScannerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    StopScan();
+                    ReleaseScan();
                 }
             });
         }
     }
 
-    private void StartScan(){
-        if (mScanner != null) {
+    private void StartScan() {
+        if (mScannerView != null) {
             mScanning = true;
-            mScanner.startScanner();
+            mScannerView.startCamera();
         }
     }
 
-    private void StopScan(){
-        if (mScanner != null) {
-            mScanner.stopScanner();
+    private void StopScan() {
+        if (mScannerView != null) {
+            mScannerView.stopCamera();
+        }
+    }
+
+    private void ReleaseScan() {
+        if (mScannerView != null) {
             mScanning = false;
+            mScannerView.stopCamera();
         }
     }
 
-    private void ConnectServer(String ip){
-        if (mCameraService != null){
+    private void ConnectServer(String ip) {
+        if (mCameraService != null) {
+            Log.d(TAG, ip);
             mCameraService.initClient(ip);
         }
     }
 
     private void ShowCapturedImage(byte[] data) {
+        mReceiveState = ReceiveState.RECEIVE_STEAM_IMAGE;
+        try {
+            ReplacePreviewImage(data);
+            ShowPreviewImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void ShowPreviewImage(){
         mPreviewImageDialog.show();
 
         ImageView imageView = (ImageView) mPreviewImageDialog.findViewById(R.id.preview_image);
-        imageView.setImageBitmap(previewBitmap = BitmapFactory.decodeByteArray(data, 0 , data.length));
+        imageView.setImageBitmap(lastImage);
     }
 
-    private void RenderStreamImage(final byte[] data) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (bmpChoose) {
-                    if (bmp2 != null) bmp2.recycle();
-                    result = bmp2 = BitmapFactory.decodeByteArray(data, 0, data.length);
-                } else {
-                    if (bmp1 != null) bmp1.recycle();
-                    result = bmp1 = BitmapFactory.decodeByteArray(data, 0, data.length);
-                }
-                if (result != null) {
-                    mIvCameraPreview.setImageBitmap(result);
-                    bmpChoose = !bmpChoose;
-                }
+    private void ReceiveCapturedImage(byte[] data){
+        ShowCapturedImage(data);
+    }
+
+    private void ReplacePreviewImage(byte[] data) throws IOException {
+        lastImagePath = SavePicture(data);
+
+        //Add Image to Media
+        MediaScannerConnection.scanFile(getContext(), new String[]{lastImagePath}, null, null);
+
+        //Show Image in preview
+        if (lastImage != null){
+            lastImage.recycle();
+            lastImage = null;
+        }
+
+        lastImage = BitmapFactory.decodeByteArray(data,0, data.length);
+        mBtnImagePreview.setImageBitmap(lastImage);
+    }
+
+    private void RenderStreamImage(byte[] data) {
+        if (isRenderStream) {
+            if (bmpChoose) {
+                if (bmp2 != null) bmp2.recycle();
+                result = bmp2 = BitmapFactory.decodeByteArray(data, 0, data.length);
+            } else {
+                if (bmp1 != null) bmp1.recycle();
+                result = bmp1 = BitmapFactory.decodeByteArray(data, 0, data.length);
             }
-        });
+            if (result != null) {
+                mIvCameraPreview.setImageBitmap(result);
+                bmpChoose = !bmpChoose;
+            }
+        }
+    }
+
+    private String SavePicture(byte[] data) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "FARSHUTTER_" + timeStamp;
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File cameraFolder = new File(storageDir.getAbsolutePath(), "Camera Roll");
+
+        if (!cameraFolder.exists()) {
+            cameraFolder.mkdir();
+        }
+
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                cameraFolder      /* directory */
+        );
+
+        Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+
+        FileOutputStream outputStream = new FileOutputStream(image);
+        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+        return image.getAbsolutePath();
     }
 
     //endregion
@@ -238,6 +305,18 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
             }
         });
 
+        mBtnTakePhoto = (CircleButton) view.findViewById(R.id.btnTakePhoto);
+        mBtnTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCameraService != null){
+                    mCameraService.sendCodeData(ActionCodes.CAPTURE);
+                }
+            }
+        });
+
+        mBtnImagePreview = (ImageButton) view.findViewById(R.id.btnReview);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(inflater.inflate(R.layout.qr_scanner_dialog, null));
         builder.setTitle("Scanning QR Code...");
@@ -259,12 +338,6 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
             }
         });
         mPreviewImageDialog = builder2.create();
-        mPreviewImageDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                previewBitmap.recycle();
-            }
-        });
 
         AlertDialog.Builder builder3 = new AlertDialog.Builder(getContext());
         builder3.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -332,23 +405,25 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
 
         //Bind controller to service
 
-        if (mScanning){
+        if (mScanning) {
             StartScan();
         }
+
+        isRenderStream = true;
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        if (mCameraService != null){
+        if (mCameraService != null) {
             mCameraService.removeCallback();
             mCameraService = null;
         }
 
-        if(mScanner != null){
-            mScanner.stopScanner();
-        }
+        StopScan();
+
+        isRenderStream = false;
     }
 
     @Override
@@ -380,20 +455,27 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
     }
 
     @Override
-    public void OnReceiveImage(byte[] data) {
-        switch (mReceiveState){
-            case RECEIVE_STEAM_IMAGE:
-                RenderStreamImage(data);
-                break;
-            case RECEIVE_CAPTURED_IMAGE:
-                ShowCapturedImage(data);
-                break;
-        }
-}
+    public void OnReceiveImage(final byte[] data) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                switch (mReceiveState) {
+                    case RECEIVE_STEAM_IMAGE:
+                        RenderStreamImage(data);
+                        break;
+                    case RECEIVE_CAPTURED_IMAGE:
+                        ReceiveCapturedImage(data);
+                        break;
+                }
+            }
+        });
+    }
 
     @Override
     public void OnReceiveCode(String data) {
-        switch (data){
+        Log.d(TAG, data);
+
+        switch (data) {
             case ActionCodes.START_SEND_IMAGE:
                 mReceiveState = ReceiveState.RECEIVE_CAPTURED_IMAGE;
                 break;

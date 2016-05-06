@@ -35,7 +35,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.github.markushi:circlebutton:1.1'
-    compile ('eu.livotov.labs.android:CAMView:2.0.1@aar') {transitive=true}
     compile 'com.github.kenglxn.QRGen:android:2.1.0'
+    compile 'me.dm7.barcodescanner:zxing:1.8.4'
     compile project(':lib')
 }
