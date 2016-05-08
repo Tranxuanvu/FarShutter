@@ -22,6 +22,7 @@ public class CameraService extends Service {
 
     private static final String TAG = "CameraService";
     private IBinder mBinder = new CameraBinder();
+    private int mPort = 0;
 
     //endregion
 
@@ -64,23 +65,34 @@ public class CameraService extends Service {
 
     public native String sendImageData(byte[] data);
 
-    private native String createServer();
+    public native String sendStreamData(byte[] data);
 
-    public native String initClient(String url);
+    private native String createServer(int port);
+
+    public native String initClient(String ip, int port);
 
     public native String sendCodeData(byte[] data);
 
-    public native String closeSocket();
+    private native String closeSocket();
 
-    public void startServer(){
+    public void startServer(int port){
+        mPort = port;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                createServer();
+                createServer(mPort);
             }
         }).start();
     }
 
+    public void CloseSocket(){
+        closeSocket();
+        mPort = 0;
+    }
+
+    public int CurrentPort(){
+        return mPort;
+    }
 
     //endregion
 

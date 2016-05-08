@@ -17,8 +17,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
         }
     }
     repositories {
@@ -30,6 +33,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    compile project(':lib')
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
@@ -37,5 +41,4 @@ dependencies {
     compile 'com.github.markushi:circlebutton:1.1'
     compile 'com.github.kenglxn.QRGen:android:2.1.0'
     compile 'me.dm7.barcodescanner:zxing:1.8.4'
-    compile project(':lib')
 }

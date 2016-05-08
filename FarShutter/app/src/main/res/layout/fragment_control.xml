@@ -3,18 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context=".Fragment.ControlFragment">
+    tools:context=".Fragment.ControlFragment"
+    android:orientation="vertical">
 
-    <ImageView
+    <com.thuantan.farshutter.Utils.DisplayStreamView
         android:id="@+id/ivCameraPreview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:rotation="90"
-        android:contentDescription="@string/camera_review" />
+        android:contentDescription="@string/camera_review"
+        android:layout_weight="1" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="64dp">
@@ -22,15 +20,16 @@
             android:id="@+id/btnReview"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/photo_camera"
-            android:layout_alignParentLeft="true"
-            android:scaleType="fitCenter"
-            android:layout_toLeftOf="@+id/btnTakePhoto"
-            android:layout_toStartOf="@+id/btnTakePhoto"
-            android:background="@null"
+            android:scaleType="centerCrop"
             android:rotation="90"
             android:padding="10dp"
-            android:contentDescription="@string/image_review" />
+            android:background="@null"
+            android:src="@drawable/no_image"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image_review"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
         <at.markushi.ui.CircleButton
             android:id="@+id/btnTakePhoto"
             android:layout_width="wrap_content"

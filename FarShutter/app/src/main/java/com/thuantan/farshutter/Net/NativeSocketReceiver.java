@@ -19,6 +19,8 @@ public class NativeSocketReceiver {
 
         void OnReceiveImage(byte[] data);
 
+        void OnReceiveStream(byte[] data);
+
         void OnReceiveCode(String data);
 
     }
@@ -51,6 +53,10 @@ public class NativeSocketReceiver {
 
     public static void OnReceiveImage(byte[] data) {
         if (Callback != null) Callback.OnReceiveImage(data);
+    }
+
+    public static void OnReceiveStream(byte[] data) {
+        if (Callback != null) Callback.OnReceiveStream(data);
     }
 
     public static void OnReceiveCode(byte[] data) {

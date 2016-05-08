@@ -5,7 +5,8 @@
     <ImageView
         android:id="@+id/preview_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:scaleType="fitCenter"
         android:rotation="90"
         android:contentDescription="@string/preview_image" />

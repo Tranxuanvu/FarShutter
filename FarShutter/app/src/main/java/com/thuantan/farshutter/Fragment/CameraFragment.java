@@ -14,6 +14,7 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -21,6 +22,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
@@ -37,7 +39,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.thuantan.farshutter.Common.ActionCodes;
 import com.thuantan.farshutter.Common.Settings;
@@ -72,20 +73,18 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     private CircleButton mBtnTakePhoto;
     private Dialog mQRCodeDialog;
     private Dialog mConfirmBackDialog;
-    private Dialog mPreviewImageDialog;
+    //private Dialog mPreviewImageDialog;
 
     private Bitmap mQRCodeImage = null;
     private int deviceWidth;
     private int orientation;
     private int degrees = -1;
     private SensorManager sensorManager = null;
-    private boolean isSending = false;
+    private boolean isSendingStream = false;
     private Date lastSend = new Date();
     private boolean blockStream = false;
     private Camera.Size sendImageSize = null;
-
     private String lastImagePath = null;
-    private Bitmap lastImage = null;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -103,14 +102,8 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                     }
                 }
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
                 mCameraService.setCallback(CameraFragment.this);
-                mCameraService.startServer();
+                mCameraService.startServer(Settings.GetRandomPort());
             }
         }
 
@@ -162,7 +155,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         // Create an instance of Camera
         Camera camera = getCameraInstance();
 
-        if (camera == null){
+        if (camera == null) {
             return;
         }
 
@@ -182,15 +175,16 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         mPreview = new CameraPreview(getActivity(), mCamera, mPreviewCallBack, mAutoFocusCallback);
 
         // Calculating the width of the preview so it is proportional.
-        float heightFloat = (float) (deviceWidth * 4 / 3);
-        int height = Math.round(heightFloat);
+        /*float heightFloat = (float) (deviceWidth * 4 / 3);
+        int height = Math.round(heightFloat);*/
+
         // Resizing the LinearLayout so we can make a proportional preview. This
         // approach is not 100% perfect because on devices with a really small
         // screen the the image will still be distorted - there is place for
         // improvment.
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(deviceWidth, height);
+        //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(deviceWidth, Math.round(deviceWidth * (float) params.getPictureSize().width / params.getPictureSize().height));
         // layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        mPreviewContainer.setLayoutParams(layoutParams);
+        //mPreviewContainer.setLayoutParams(layoutParams);
 
         // Adding the camera preview after the FrameLayout and before the button
         // as a separated element.
@@ -200,7 +194,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     /**
      * A safe way to get an instance of the Camera object.
      */
-    public static Camera getCameraInstance() {
+    private static Camera getCameraInstance() {
         Camera c = null;
         try {
             c = Camera.open();
@@ -239,7 +233,6 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
 
     private void TakePhoto() {
         if (mCamera != null) {
-            SafeSendCode(ActionCodes.CAPTURE_START);
 
             //Save photo
             mCamera.autoFocus(new Camera.AutoFocusCallback() {
@@ -253,20 +246,27 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                                     lastImagePath = SavePicture(data);
 
                                     //Add Image to Media
-                                    MediaScannerConnection.scanFile(getContext(), new String[] { lastImagePath }, null, null);
+                                    MediaScannerConnection.scanFile(getContext(), new String[]{lastImagePath}, null, null);
 
                                     //Show Image in preview
-                                    if (lastImage != null){
-                                        lastImage.recycle();
-                                        lastImage = null;
+                                    Bitmap previousBitmap = ((BitmapDrawable)mBtnImagePreview.getDrawable()).getBitmap();
+                                    if (previousBitmap != null) {
+                                        previousBitmap.recycle();
                                     }
 
-                                    lastImage = BitmapFactory.decodeByteArray(data,0, data.length);
-                                    mBtnImagePreview.setImageBitmap(lastImage);
+                                    Bitmap decodeImage = BitmapFactory.decodeByteArray(data, 0, data.length);
 
-                                    SafeSendCode(ActionCodes.CAPTURE_COMPLETE);
+                                    int marginWidth = Math.round((decodeImage.getWidth() - mBtnImagePreview.getHeight() * (decodeImage.getHeight() * 1.0f / mBtnImagePreview.getWidth())) / 2);
+                                    Bitmap cropImage = Bitmap.createBitmap(decodeImage, marginWidth, 0, decodeImage.getWidth() - 2 * marginWidth, decodeImage.getHeight());
+                                    decodeImage.recycle();
+
+                                    Bitmap scaleImage = Bitmap.createScaledBitmap(cropImage, mBtnImagePreview.getWidth(), mBtnImagePreview.getHeight(),false);
+                                    cropImage.recycle();
+
+                                    mBtnImagePreview.setImageBitmap(scaleImage);
+
                                     SafeSendCapturedImage(data);
-                                } catch (IOException e) {
+                                } catch (IOException | RuntimeException e) {
                                     e.printStackTrace();
                                 }
                                 camera.startPreview();
@@ -278,15 +278,21 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         }
     }
 
-    private String SavePicture(byte[] data) throws IOException {
+    private String SavePicture(byte[] data) throws IOException, RuntimeException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "FARSHUTTER_" + timeStamp;
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File cameraFolder = new File(storageDir.getAbsolutePath(), "Camera Roll");
+        File cameraFolder = new File(storageDir.getAbsolutePath(), "FARSHUTTER");
 
         if (!cameraFolder.exists()) {
             cameraFolder.mkdir();
+        }
+
+        Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+        if (bm == null) {
+            throw new RuntimeException("data in not image format");
         }
 
         File image = File.createTempFile(
@@ -295,14 +301,15 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                 cameraFolder      /* directory */
         );
 
-        Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
-
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
         Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
 
         FileOutputStream outputStream = new FileOutputStream(image);
         rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+        bm.recycle();
+        rotatedBitmap.recycle();
 
         return image.getAbsolutePath();
     }
@@ -311,13 +318,14 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         if (mCameraService != null) {
             blockStream = true;
 
-            while (isSending) {
+            while (isSendingStream) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+
             mCameraService.sendCodeData(code);
 
             blockStream = false;
@@ -328,16 +336,15 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         if (mCameraService != null) {
             blockStream = true;
 
-            while (isSending) {
+            while (isSendingStream) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            mCameraService.sendCodeData(ActionCodes.START_SEND_IMAGE);
+
             mCameraService.sendImageData(data);
-            mCameraService.sendCodeData(ActionCodes.END_SEND_IMAGE);
 
             blockStream = false;
         }
@@ -355,12 +362,18 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        WifiAPI.TurnWifi(getContext(),false);
+        WifiAPI.TurnWifi(getContext(), false);
         WifiAPI.TurnOnOffHotspot(getContext(), Settings.HOTSPOT_SSID, Settings.HOSTPOST_PASS, true);
 
         //Bind controller to service
-        Intent controllerIntent = new Intent(this.getActivity().getApplicationContext(), CameraService.class);
+        Intent controllerIntent = new Intent(this.getContext().getApplicationContext(), CameraService.class);
         this.getActivity().getApplicationContext().bindService(controllerIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+
+        Display display = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        deviceWidth = display.getWidth();
+
+        // Getting the sensor service.
+        sensorManager = (SensorManager) getContext().getSystemService(getContext().SENSOR_SERVICE);
     }
 
     @Override
@@ -375,11 +388,12 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         mBtnImagePreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lastImage != null){
-                    mPreviewImageDialog.show();
-
-                    ImageView imageView = (ImageView) mPreviewImageDialog.findViewById(R.id.preview_image);
-                    imageView.setImageBitmap(lastImage);
+                if (lastImagePath != null) {
+                    Log.d(TAG, lastImagePath);
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse("file://" + lastImagePath), "image/*");
+                    startActivity(intent);
                 }
             }
         });
@@ -402,14 +416,17 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                 }
                 mQRCodeDialog.show();
 
-                if (mQRCodeImage == null) {
-                    String ip = WifiAPI.GetCurrentIP();
-                    if (ip != null) {
-                        ImageView qrImage = (ImageView) mQRCodeDialog.findViewById(R.id.qr_code_img);
-                        //TODO GET SSID AND PASS OF HOTSPOT
-                        mQRCodeImage = QRCode.from(ip + ";" + Settings.HOTSPOT_SSID + ";" + Settings.HOSTPOST_PASS).withSize(600,600).bitmap();
-                        qrImage.setImageBitmap(mQRCodeImage);
-                    }
+                if (mQRCodeImage != null) {
+                    mQRCodeImage.recycle();
+                }
+
+                String ip = WifiAPI.GetCurrentIP();
+                if (ip != null && mCameraService != null) {
+                    ImageView qrImage = (ImageView) mQRCodeDialog.findViewById(R.id.qr_code_img);
+                    //TODO GET SSID AND PASS OF HOTSPOT
+                    int qrSize = Math.round(deviceWidth * 0.8f);
+                    mQRCodeImage = QRCode.from(ip + ":" + mCameraService.CurrentPort() + ";" + Settings.HOTSPOT_SSID + ";" + Settings.HOSTPOST_PASS).withSize(qrSize, qrSize).bitmap();
+                    qrImage.setImageBitmap(mQRCodeImage);
                 }
             }
         });
@@ -421,12 +438,6 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                 TakePhoto();
             }
         });
-
-        Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        deviceWidth = display.getWidth();
-
-        // Getting the sensor service.
-        sensorManager = (SensorManager) getActivity().getSystemService(getActivity().SENSOR_SERVICE);
 
         view.setFocusableInTouchMode(true);
         view.requestFocus();
@@ -447,7 +458,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (mCameraService != null) {
-                    mCameraService.closeSocket();
+                    mCameraService.CloseSocket();
                 }
                 getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
@@ -461,7 +472,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         builder.setMessage("Do you want to close ?");
         mConfirmBackDialog = builder.create();
 
-        AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+        /*AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
         builder2.setView(inflater.inflate(R.layout.preview_dialog, null));
         builder2.setTitle("Preview");
         builder2.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
@@ -470,7 +481,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                 dialog.dismiss();
             }
         });
-        mPreviewImageDialog = builder2.create();
+        mPreviewImageDialog = builder2.create();*/
 
         return view;
     }
@@ -505,6 +516,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         this.getActivity().getApplicationContext().unbindService(mServiceConnection);
         if (mCameraService != null) {
             mCameraService.removeCallback();
+            mCameraService.CloseSocket();
         }
         mCameraService = null;
 
@@ -577,12 +589,11 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     private Camera.PreviewCallback mPreviewCallBack = new Camera.PreviewCallback() {
         @Override
         public void onPreviewFrame(byte[] data, Camera camera) {
-            Log.d(TAG, isSending + " " + blockStream + " " + mCameraService );
-            if (!isSending && !blockStream && mCameraService != null) {
+            if (!isSendingStream && !blockStream && mCameraService != null) {
                 Date current = new Date();
-                if ((current.getTime() - lastSend.getTime()) >= 100) {
+                if ((current.getTime() - lastSend.getTime()) >= 125) {
                     lastSend = current;
-                    isSending = true;
+                    isSendingStream = true;
 
                     mJpegCompressionBuffer.reset();
 
@@ -590,13 +601,11 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
                         sendImageSize = mCamera.getParameters().getPreviewSize();
                     }
 
-                    Log.d(TAG, sendImageSize.width + "");
-
                     YuvImage image = new YuvImage(data, mCamera.getParameters().getPreviewFormat(), sendImageSize.width, sendImageSize.height, null);
                     image.compressToJpeg(new Rect(0, 0, image.getWidth(), image.getHeight()), 90, mJpegCompressionBuffer);
-                    mCameraService.sendImageData(mJpegCompressionBuffer.toByteArray());
+                    mCameraService.sendStreamData(mJpegCompressionBuffer.toByteArray());
 
-                    isSending = false;
+                    isSendingStream = false;
                 }
             }
         }
@@ -624,6 +633,11 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
 
     @Override
     public void OnReceiveImage(byte[] data) {
+
+    }
+
+    @Override
+    public void OnReceiveStream(byte[] data) {
 
     }
 

@@ -6,4 +6,7 @@ package com.thuantan.farshutter.Common;
 public class Settings {
     public static final String HOTSPOT_SSID = "FarShutter";
     public static final String HOSTPOST_PASS = "123456789";
+    public static int GetRandomPort(){
+        return (int)(Math.random()*40000 + 9151);
+    }
 }
