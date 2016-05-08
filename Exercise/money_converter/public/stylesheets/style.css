@@ -1,0 +1,16 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.group{
+	margin-bottom: 15px;
+}
+
+label{
+	margin-right: 10px;
+}
+
+#result .number{
+	font-size: 25px;
+}
