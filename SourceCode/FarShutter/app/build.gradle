@@ -1,15 +1,38 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'farshutterkey'
+            keyPassword 'heosamac2060'
+            storeFile file('C:/Users/ThuanTan/OneDrive/Documents/FarShutter/FarShutterKeyStore.jks')
+            storePassword 'heosamac2060'
+        }
+    }
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-
+    buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.thuantan.farshutter"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 105
+        versionName "1.5"
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi', 'armeabi-v7a'
+            universalApk true
+        }
+    }
+    project.ext.versionCodes = ['armeabi': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, 'mips': 5, 'mips64': 6, 'x86': 8, 'x86_64': 9]
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.versionCodeOverride =
+                    project.ext.versionCodes.get(output.getFilter(
+                            com.android.build.OutputFile.ABI), 0) * 10000000 + android.defaultConfig.versionCode
+        }
     }
     sourceSets {
         main.jniLibs.srcDirs = ['libs']
@@ -17,7 +40,10 @@ android {
     }
     buildTypes {
         release {
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
         }
         debug {
         }
@@ -32,11 +58,15 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':lib')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:24.0.0-beta1'
+    compile 'com.android.support:design:24.0.0-beta1'
+    compile 'com.android.support:support-v4:24.0.0-beta1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.github.markushi:circlebutton:1.1'
     compile 'com.github.kenglxn.QRGen:android:2.1.0'
     compile 'me.dm7.barcodescanner:zxing:1.8.4'
+    compile 'com.google.android.gms:play-services-ads:9.0.1'
+    compile 'com.google.android.gms:play-services-auth:9.0.1'
+    compile 'com.firebase:firebase-client-android:2.3.1'
+    compile 'com.google.android.gms:play-services-gcm:9.0.1'
 }

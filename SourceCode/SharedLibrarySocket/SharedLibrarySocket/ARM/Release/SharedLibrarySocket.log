@@ -1,7 +1,7 @@
-﻿  ANDROID_HOME=D:\Android-SDK
-  ANT_HOME=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Apps\apache-ant-1.9.3\
-  JAVA_HOME=C:\Program Files\Java\jdk1.8.0_45
-  NDK_ROOT=D:\Android-NDK-10E
+﻿  ANDROID_HOME=D:\AndroidSDK
+  ANT_HOME=
+  JAVA_HOME=C:\Program Files\Java\jdk1.8.0_91
+  NDK_ROOT=D:\AndroidNDK\android-ndk-r10e
   pch.h
   SharedLibrarySocket.cpp
   In file included from SharedLibrarySocket.cpp:1:
@@ -33,4 +33,4 @@
           int send_message_fail_count = 0;
                                       ^
   9 warnings generated.
-  SharedLibrarySocket.vcxproj -> E:\VisualProjects\SharedLibrarySocket\ARM\Release\libSharedLibrarySocket.so
+  SharedLibrarySocket.vcxproj -> E:\AndroidProjects\FarShutter\SourceCode\SharedLibrarySocket\ARM\Release\libSharedLibrarySocket.so

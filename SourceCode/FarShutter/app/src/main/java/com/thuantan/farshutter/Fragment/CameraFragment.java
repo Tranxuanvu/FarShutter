@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
@@ -85,6 +86,7 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
     private boolean blockStream = false;
     private Camera.Size sendImageSize = null;
     private String lastImagePath = null;
+    private PowerManager.WakeLock mWakeLock = null;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -493,6 +495,10 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
         // Register this class as a listener for the accelerometer sensor
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         createCamera();
+
+        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FarShutterWakeLock");
+        mWakeLock.acquire();
     }
 
     @Override
@@ -503,6 +509,11 @@ public class CameraFragment extends Fragment implements SensorEventListener, Nat
 
         if (mPreviewContainer != null && mPreviewContainer.getChildCount() > 0) {
             mPreviewContainer.removeViewAt(0);
+        }
+
+        if (mWakeLock != null) {
+            mWakeLock.release();
+            mWakeLock = null;
         }
     }
 

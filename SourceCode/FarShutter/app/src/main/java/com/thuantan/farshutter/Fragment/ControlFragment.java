@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -64,6 +65,7 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
     private Dialog mQRScannerDialog;
     private boolean isRenderStream = false;
     private String lastImagePath = null;
+    private PowerManager.WakeLock mWakeLock = null;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -416,6 +418,10 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
         }
 
         isRenderStream = true;
+
+        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FarShutterWakeLock");
+        mWakeLock.acquire();
     }
 
     @Override
@@ -429,6 +435,11 @@ public class ControlFragment extends Fragment implements NativeSocketReceiver.Na
         StopScan();
 
         isRenderStream = false;
+
+        if (mWakeLock != null) {
+            mWakeLock.release();
+            mWakeLock = null;
+        }
     }
 
     @Override
